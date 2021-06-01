@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speedex Courier</title>
+    {% load static%}
+    <style>
+body{
+    background-image: url("../static/images/1.jpg");
+}
+#outer
+{
+ min-height:735px;
+ width:1000px;
+ backgound-color:#ccccff;
+ margin:0px auto;
+ height:auto;
+}
+#header
+{
+ height:100px;
+ width:1000px;
+ background-color:#663300;
+}
+#logo
+{
+height:100px;
+width:100px;
+background-color:cyan;
+float:left;
+}
+#banner
+{
+ height:100px;
+ width:899px;
+ float:left;
+ background-color:#663300;
+ text-align:center;
+ font-size:40px;
+ line-height:100px;
+ color:white;
+}
+#menu
+{
+ height:50px;
+ width:1000px;
+ border:1px solid #660033;
+ background-color:#660033;
+ margin-top:5px;
+}
+#menu ul
+{
+ list-style-type:none;
+}
+#menu ul li
+{
+ display:inline;
+ padding:15px;
+}
+#menu ul li a
+{
+ text-decoration:none;
+ color:white;
+}
+#menu ul li:hover
+{
+ background-color:#cc0066;
+}
+#slider
+{
+ height:250px;
+ width:1000px;
+ background-color:#993333;
+ margin-top:5px;
+}
+#box
+{
+ min-height:500px;
+ width:1000px;
+ margin-top:5px;
+ background-color:white;
+ height:auto;
+}
+#left
+{
+ height:500px;
+ width:400px;
+ background-color:gray;
+ border:1px solid gray;
+ float:left;
+}
+#main
+{
+ height:500px;
+ width:595px;
+ background-color:lightgray;
+ border:1px solid lightgray;
+ float:left;
+}
+#footer
+{
+ height:50px;
+ width:1000px;
+ margin-top:5px;
+}
+#footer_left
+{
+ height:50px;
+ width:500px;
+ background-color:#cc6699;
+ border:1px solid #cc6699;
+ float:left;
+}
+#footer_right
+{
+ height:50px;
+ width:495px;
+ background-color:#993333;
+ border:1px solid #993333;
+ float:left;
+}
+    </style>
+    <script>
+        var images=["p3.jpg","p4.jpg","p5.jpg","s6.png"];
+        var i=0;
+        baseUrl="{% static 'images/'%}";
+        function moveslider()
+        {
+            if(i==4)
+            {
+            i=0;
+            }
+            document.getElementById("slide").src=baseUrl+images[i];
+            i++;
+            window.setTimeout("moveslider()",2000);
+        }
+    </script>
+</head>
+<body >
+    <div id="outer">
+        <div id="header">
+            <div id="logo">
+                <img src="{% static 'images/logo2.png'%}" height="100px" width="100px"/>
+
+            </div>
+            <div id="banner">
+                <!--<img src="{% static 'images/i3.png' %}" height="100px" width="899px"/>-->
+
+                SPEEDEX COURIER
+            </div>
+            <br/>
+            <!--<center><h3 style="color:white;">SPEEDEX COURIER</h3></center>-->
+        </div>
+        <div id="menu">
+            <ul>
+                <center>
+                     <li><a href="{% url 'adminzone:adminhome' %}">Admin Home</a></li>
+                     <li><a href="{% url 'adminzone:enquiries' %}">Enquiries</a></li>
+                     <li><a href="{% url 'adminzone:complains'%}">Complains</a></li>
+                     <li><a href="{% url 'adminzone:consignment' %}">Consignment</a></li>
+                     <li><a href="{% url 'adminzone:jobseekers' %}">Job Seekers</a></li>
+                     <li><a href="{% url 'index' %}">Logout</a></li>
+                </center>
+
+            </ul>
+        </div>
+        <div id="box">
+            <form action="{% url 'adminzone:saveconsignment' %}" method="post">
+                {% csrf_token %}
+                <h2 style="color:blue;text-align:center;">
+                    Add Consignment
+                </h2>
+                <table border="1" style="width:50%;margin:0 auto;">
+                    <tr>
+                        <td>Enter Reference No</td>
+                        <td>
+                            <input type="text" name="refno" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enter Sender Name</td>
+                        <td>
+                            <input type="text" name="sendername" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sender Address</td>
+                        <td>
+                            <textarea name="senderaddress" style="height:100px;resize:none;" required></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enter Contact No</td>
+                        <td>
+                            <input type="text" name="sendercontactno" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Receiver Name</td>
+                        <td><input type="text" name="receivername" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter Receiver Address</td>
+                        <td><textarea name="receiveraddress" required style="height:100px;resize:none;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Select source city</td>
+                        <td>
+                            <select name="source">
+                                {% for c in city %}
+                                    <option>{{c.cityname}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Select current city</td>
+                        <td>
+                            <select name="currentcity">
+                                {% for c in city %}
+                                    <option>{{c.cityname}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Select Destination</td>
+                        <td>
+                            <select name="destination">
+                                {% for c in city %}
+                                    <option>{{c.cityname}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Select Status</td>
+                        <td>
+                            <select name="status">
+                                <option>Initiated</option>
+                                <option>Pipeline</option>
+                                <option>Delivered</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if msg %}
+                                {{msg}}
+                            {% endif%}
+                        </td>
+                        <td>
+                            <input type="submit" value="submit"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="footer">
+            <div id="footer_left">
+                <br/>
+                <center>copyright &copy; to speedex courier</center>
+            </div>
+            <div id="footer_right">
+                <br/>
+                <center>Developed By:Vishal Srivastava</center>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

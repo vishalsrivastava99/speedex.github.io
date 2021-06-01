@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speedex Courier</title>
+    {% load static%}
+    <link href="{% static 'css/style.css' %}" rel='stylesheet'/>
+    <script>
+        var images=["p3.jpg","p4.jpg","p5.jpg","s6.png"];
+        var i=0;
+        baseUrl="{% static 'images/'%}";
+        function moveslider()
+        {
+            if(i==4)
+            {
+            i=0;
+            }
+            document.getElementById("slide").src=baseUrl+images[i];
+            i++;
+            window.setTimeout("moveslider()",2000);
+        }
+    </script>
+    <style>
+
+body
+{
+    background-image: url("../static/images/1.jpg");
+
+}
+ #outer
+{
+ height:985px;
+ width:1000px;
+ backgound-color:#ccccff;
+ margin:0px auto;
+}
+#header
+{
+ height:100px;
+ width:1000px;
+ background-color:#663300;
+}
+#logo
+{
+height:100px;
+width:100px;
+background-color:cyan;
+float:left;
+}
+#banner
+{
+ height:100px;
+ width:899px;
+ float:left;
+ background-color:#663300;
+ text-align:center;
+ font-size:50px;
+ font-family:Verdana;
+ line-height:100px;
+ color:white;
+ text-shadow: 8px 8px 8px #1a1a1a;
+
+
+}
+#menu
+{
+ height:50px;
+ width:1000px;
+ border:1px solid #660033;
+ background-color:#660033;
+ margin-top:5px;
+}
+#menu ul
+{
+ list-style-type:none;
+}
+#menu ul li
+{
+ display:inline;
+ padding:15px;
+}
+#menu ul li a
+{
+ text-decoration:none;
+ color:white;
+}
+#menu ul li:hover
+{
+ background-color:#cc0066;
+}
+#slider
+{
+ height:250px;
+ width:1000px;
+ background-color:#993333;
+ margin-top:5px;
+}
+#box
+{
+ height:500px;
+ width:1000px;
+ margin-top:5px;
+ background color:gray;
+ border:1px solid gray;
+}
+#left
+{
+ height:500px;
+ width:400px;
+ background-color:gray;
+ border:1px solid gray;
+ float:left;
+}
+#main
+{
+ height:500px;
+ width:595px;
+ background-color:lightgray;
+ border:1px solid lightgray;
+ float:left;
+
+}
+#footer
+{
+ height:50px;
+ width:1000px;
+ margin-top:5px;
+}
+#footer_left
+{
+ height:50px;
+ width:500px;
+ background-color:#cc6699;
+ border:1px solid #cc6699;
+ float:left;
+}
+#footer_right
+{
+ height:50px;
+ width:495px;
+ background-color:#993333;
+ border:1px solid #993333;
+ float:left;
+}
+
+    </style>
+</head>
+<body onload="moveslider()">
+    <div id="outer">
+        <div id="header">
+            <div id="logo">
+                <img src="{% static 'images/logo2.png'%}" height="100px" width="100px"/>
+
+            </div>
+            <div id="banner">
+                <!--<img src="{% static 'images/i3.png' %}" height="100px" width="899px"/>-->
+
+                SPEEDEX COURIER
+            </div>
+            <br/>
+            <!--<center><h3 style="color:white;">SPEEDEX COURIER</h3></center>-->
+        </div>
+        <div id="menu">
+            <ul>
+                <center>
+                     <li><a href="{% url 'index' %}">HOME</a></li>
+                     <li><a href="{% url 'about'%}">ABOUT US</a></li>
+                     <li><a href="{% url 'login'%}">LOGIN</a></li>
+                     <li><a href="{% url 'tracking'%}">PACKET TRACKING</a></li>
+                     <li><a href="{% url 'complaint'%}">COMPLAINT</a></li>
+                     <li><a href="{% url 'enquiry'%}">ENQUIRY</a></li>
+                     <li><a href="{% url 'career'%}">CAREER</a></li>
+                </center>
+
+            </ul>
+        </div>
+        <div id="slider">
+            <img id="slide" width="1000" height="250"/>
+        </div>
+        <div id="box">
+            <div id="left">
+                <marquee direction="up" height="400px" onmouseover="stop()" onmouseout="start()">
+                {% for  n in nf %}
+                    <span style="text-align:center">
+                    <p style="color:blue;font-size:20px;">{{n.notificationtext}}</p>
+                    <p>{{n.posteddate}}</p>
+                    </span>
+                {% endfor %}
+                </marquee>
+            </div>
+            <div id="main">
+                <form action="{% url 'search' %}" method="post">
+                    {% csrf_token %}
+                    <h2 style="color:blue;text-align:center;">
+                        Track your consignment
+                    </h2>
+                    <table border="1" style="width:50%;margin:0 auto;">
+                        <tr>
+                            <td>Enter reference no</td>
+                            <td>
+                                <input type="text" name="refno" required/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input type="submit" value="Search"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <table border="1" style="width:50%;margin:0 auto;">
+                    <tr>
+                        <th>Source</th>
+                        <th>Current location</th>
+                        <th>Destination</th>
+                        <th>Status</th>
+                    </tr>
+                    {% if con %}
+                        <tr>
+                            <td>{{con.source}}</td>
+                            <td>{{con.currentcity}}</td>
+                            <td>{{con.destination}}</td>
+                            <td>{{con.status}}</td>
+                        </tr>
+                    {% endif%}
+                </table>
+            </div>
+
+        </div>
+        <div id="footer">
+            <div id="footer_left">
+                <br/>
+                <center>copyright &copy; to speedex courier</center>
+            </div>
+            <div id="footer_right">
+                <br/>
+                <center>Developed By:Vishal Srivastava</center>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
